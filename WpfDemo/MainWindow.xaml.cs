@@ -77,7 +77,10 @@ namespace WpfDemo
         {
             Personen = new ObservableCollection<Person>
             {
-                new Person {Vorname = "Max"}
+                new Person {Vorname = "Maximilian", Nachname="Tielke", IsMale = true},
+                new Person {Vorname = "Lena", Nachname="Tielke", IsMale = false},
+                new Person {Vorname = "David", Nachname="Tielke", IsMale = true},
+                new Person {Vorname = "Hasi", Nachname="Tielke", IsMale = false},
             };
             InitializeComponent();
 
