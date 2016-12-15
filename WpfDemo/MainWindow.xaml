@@ -16,10 +16,15 @@
             <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ListBox Grid.Column="0" ItemsSource="{Binding Personen}" SelectedItem="{Binding AusgewähltePerson}">
+        <ListBox x:Name="lbPersons" Grid.Column="0" ItemsSource="{Binding Personen}" SelectedItem="{Binding AusgewähltePerson}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
+                        <Grid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Löschen" Click="RemoveButtonHandler"/>
+                            </ContextMenu>
+                        </Grid.ContextMenu>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50"/>
                             <ColumnDefinition Width="*"/>
@@ -65,15 +70,15 @@
                 <Button Content="Remove" Click="RemoveButtonHandler" IsEnabled="{Binding KannGelöschtWerden}"/>
             </ToolBar>
             <TextBlock Grid.Column="0" Grid.Row="1">Vorname</TextBlock>
-            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding AusgewähltePerson.Vorname, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SelectedItem.Vorname, ElementName=lbPersons, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding VornameZeichenVerbleibend, StringFormat={}{0} Zeichen verbleibend...}"/>
 
             <TextBlock Grid.Column="0" Grid.Row="2">Nachname</TextBlock>
-            <TextBox Grid.Column="1" Grid.Row="2"  Text="{Binding AusgewähltePerson.Nachname, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Grid.Column="1" Grid.Row="2"  Text="{Binding SelectedItem.Nachname, ElementName=lbPersons, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding VornameZeichenVerbleibend, StringFormat={}{0} Zeichen verbleibend...}"/>
 
             <TextBlock Grid.Column="0" Grid.Row="3">Ist männlich</TextBlock>
-            <CheckBox Grid.Column="1" Grid.Row="3" IsChecked="{Binding AusgewähltePerson.IsMale}"/>
+            <CheckBox Grid.Column="1" Grid.Row="3" IsChecked="{Binding SelectedItem.IsMale, ElementName=lbPersons}"/>
         </Grid>
     </Grid>
 </Window>

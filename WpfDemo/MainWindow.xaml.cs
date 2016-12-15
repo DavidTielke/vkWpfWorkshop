@@ -104,7 +104,11 @@ namespace WpfDemo
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            var del = PropertyChanged;
+            if (del != null)
+            {
+                del(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         private void RemoveButtonHandler(object sender, RoutedEventArgs e)
