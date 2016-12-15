@@ -22,7 +22,10 @@ namespace FormsDemo
             }
         }
 
-        public string Nachname => textBox2.Text;
+        public string Nachname
+        {
+            get { return textBox1.Name; }
+        }
 
         public Form1()
         {
