@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using WpfDemo.Annotations;
-using WpfDemo.Commands;
 
 namespace WpfDemo
 {
@@ -21,11 +20,17 @@ namespace WpfDemo
                 new Person {Vorname = "David", Nachname = "Tielke", IsMale = true},
                 new Person {Vorname = "Hasi", Nachname = "Tielke", IsMale = false}
             };
-            RemovePersonCommand = new RemovePersonCommand(this);
+            RemovePersonCommand = new RelayCommand(ExecuteRemovePerson, CanExecuteRemovePerson);
+            CreatePersonCommand = new RelayCommand(ExecuteCreatePerson);
+            ClearPersonsCommand = new RelayCommand(ExecuteClearPersons, CanExecuteClearPersons);
             InitializeComponent();
 
             DataContext = this;
         }
+
+        public ICommand ClearPersonsCommand { get; set; }
+
+        public ICommand CreatePersonCommand { get; set; }
 
         public ObservableCollection<Person> Personen { get; set; }
         public ICommand RemovePersonCommand { get; set; }
@@ -54,7 +59,7 @@ namespace WpfDemo
                 OnPropertyChanged("VornameZeichenVerbleibend");
             }
         }
-        
+
         public int VornameZeichenVerbleibend
         {
             get
@@ -69,24 +74,39 @@ namespace WpfDemo
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void AusgewähltePersonWurdeGeändert(object sender, PropertyChangedEventArgs e)
+        private bool CanExecuteClearPersons(object arg)
         {
-            if (e.PropertyName == "Vorname")
-            {
-                OnPropertyChanged("VornameZeichenVerbleibend");
-            }
+            return Personen.Count > 0;
         }
 
-        private void button_Click_1(object sender, RoutedEventArgs e)
+        private void ExecuteClearPersons(object obj)
+        {
+            Personen.Clear();
+        }
+
+        private void ExecuteCreatePerson(object obj)
         {
             var person = new Person();
             Personen.Add(person);
             AusgewähltePerson = person;
         }
 
-        private void ClearButtonClickHandler(object sender, RoutedEventArgs e)
+        private bool CanExecuteRemovePerson(object arg)
         {
-            Personen.Clear();
+            return AusgewähltePerson != null;
+        }
+
+        private void ExecuteRemovePerson(object obj)
+        {
+            Personen.Remove(AusgewähltePerson);
+        }
+
+        private void AusgewähltePersonWurdeGeändert(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Vorname")
+            {
+                OnPropertyChanged("VornameZeichenVerbleibend");
+            }
         }
 
         [NotifyPropertyChangedInvocator]
