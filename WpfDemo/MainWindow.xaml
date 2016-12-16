@@ -20,11 +20,6 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
-                        <Grid.ContextMenu>
-                            <ContextMenu DataContext="{Binding Path=PlacementTarget.DataContext, RelativeSource=Self}" >
-                                <MenuItem Header="Löschen" Command="{Binding RemovePersonCommand}"/>
-                            </ContextMenu>
-                        </Grid.ContextMenu>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50"/>
                             <ColumnDefinition Width="*"/>
