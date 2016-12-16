@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace UnitTests
 {
@@ -40,8 +41,9 @@ namespace UnitTests
         [TestMethod]
         public void GetTyp_A1B3C4_Normal()
         {
-            var logger = new GetTypLoggerMock();
-            var dreieck = new Dreieck(logger);
+            var mock = new Mock<IGetTypLogger>();
+            mock.Setup(m => m.LogType(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<DreieckTyp>()));
+            var dreieck = new Dreieck(mock.Object);
             var a = 1;
             var b = 3;
             var c = 4;
