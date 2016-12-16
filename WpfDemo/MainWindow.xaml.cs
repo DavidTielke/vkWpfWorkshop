@@ -84,21 +84,24 @@ namespace WpfDemo
             Personen.Clear();
         }
 
-        private void ExecuteCreatePerson(object obj)
+        private void ExecuteCreatePerson(object selectedPerson)
         {
             var person = new Person();
             Personen.Add(person);
             AusgewähltePerson = person;
         }
 
-        private bool CanExecuteRemovePerson(object arg)
+        private bool CanExecuteRemovePerson(object selectedPerson)
         {
-            return AusgewähltePerson != null;
+            return selectedPerson != null;
         }
 
         private void ExecuteRemovePerson(object obj)
         {
-            Personen.Remove(AusgewähltePerson);
+            var personToRemove = obj as Person;
+            if (personToRemove == null) return;
+
+            Personen.Remove(personToRemove);
         }
 
         private void AusgewähltePersonWurdeGeändert(object sender, PropertyChangedEventArgs e)
