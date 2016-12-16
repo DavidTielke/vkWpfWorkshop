@@ -1,17 +1,21 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Windows;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using WpfDemo.Annotations;
 
-namespace WpfDemo
+namespace WpfDemo.ViewModels
 {
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    public class MainWindowViewModel : INotifyPropertyChanged
     {
         private Person _ausgewähltePerson;
 
-        public MainWindow()
+        public MainWindowViewModel()
         {
             Personen = new ObservableCollection<Person>
             {
@@ -23,9 +27,6 @@ namespace WpfDemo
             RemovePersonCommand = new RelayCommand(ExecuteRemovePerson, CanExecuteRemovePerson);
             CreatePersonCommand = new RelayCommand(ExecuteCreatePerson);
             ClearPersonsCommand = new RelayCommand(ExecuteClearPersons, CanExecuteClearPersons);
-            InitializeComponent();
-
-            DataContext = this;
         }
 
         public ICommand ClearPersonsCommand { get; set; }
