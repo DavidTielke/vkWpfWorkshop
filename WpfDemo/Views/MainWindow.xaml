@@ -63,7 +63,16 @@
                         <Button Content="Remove" Command="{Binding RemovePersonCommand}" CommandParameter="{Binding ElementName=lbPersons, Path=SelectedItem}"/>
                     </ToolBar>
                     <TextBlock Grid.Column="0" Grid.Row="1">Vorname</TextBlock>
-                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SelectedItem.Vorname, ElementName=lbPersons, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox x:Name="textBox" Grid.Column="1" Grid.Row="1" Text="{Binding SelectedItem.Vorname, ElementName=lbPersons, UpdateSourceTrigger=PropertyChanged}" RenderTransformOrigin="0.5,0.5">
+                        <TextBox.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </TextBox.RenderTransform>
+                    </TextBox>
                     <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding VornameZeichenVerbleibend, StringFormat={}{0} Zeichen verbleibend...}"/>
 
                     <TextBlock Grid.Column="0" Grid.Row="2">Nachname</TextBlock>
@@ -85,7 +94,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Vorname" Binding="{Binding Vorname}"/>
+                    <DataGridTextColumn Header="Vorname" Binding="{Binding Path=Vorname}"/>
                     <DataGridTextColumn Header="Nachname" Binding="{Binding Nachname}"/>
                     <DataGridCheckBoxColumn Header="Männlich" Binding="{Binding IsMale, UpdateSourceTrigger=PropertyChanged}"/>
                 </DataGrid.Columns>

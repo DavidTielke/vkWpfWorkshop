@@ -12,7 +12,22 @@ using WpfDemo.Annotations;
 
 namespace WpfDemo.ViewModels
 {
-    public class MainWindowViewModel : INotifyPropertyChanged
+    public abstract class ViewModelBase : INotifyPropertyChanged
+    {
+        public virtual event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var del = PropertyChanged;
+            if (del != null)
+            {
+                del(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+
+    public class MainWindowViewModel : ViewModelBase
     {
         private Person _ausgewähltePerson;
 
@@ -74,7 +89,7 @@ namespace WpfDemo.ViewModels
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public override event PropertyChangedEventHandler PropertyChanged;
         public event Func<Person, bool> ShowRemovePersonDialog; 
 
         private bool CanExecuteClearPersons(object arg)
@@ -116,16 +131,6 @@ namespace WpfDemo.ViewModels
             if (e.PropertyName == "Vorname")
             {
                 OnPropertyChanged("VornameZeichenVerbleibend");
-            }
-        }
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            var del = PropertyChanged;
-            if (del != null)
-            {
-                del(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }
