@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using WpfDemo.Annotations;
 
@@ -74,6 +75,7 @@ namespace WpfDemo.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event Func<Person, bool> ShowRemovePersonDialog; 
 
         private bool CanExecuteClearPersons(object arg)
         {
@@ -100,9 +102,13 @@ namespace WpfDemo.ViewModels
         private void ExecuteRemovePerson(object obj)
         {
             var personToRemove = obj as Person;
-            if (personToRemove == null) return;
+            var result = ShowRemovePersonDialog.Invoke(personToRemove);
 
-            Personen.Remove(personToRemove);
+            if (result)
+            {
+                if (personToRemove == null) return;
+                Personen.Remove(personToRemove);
+            }
         }
 
         private void AusgewähltePersonWurdeGeändert(object sender, PropertyChangedEventArgs e)

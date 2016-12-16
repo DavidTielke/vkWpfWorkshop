@@ -17,8 +17,16 @@ namespace WpfDemo
             InitializeComponent();
 
             ViewModel = new MainWindowViewModel();
+            ViewModel.ShowRemovePersonDialog += ShowRemovePersonDialog;
 
             DataContext = ViewModel;
+        }
+
+        private bool ShowRemovePersonDialog(Person arg)
+        {
+            var result = MessageBox.Show("Wollen Sie die Person " + arg.Vorname + " wirklich löschen?", "Person löschen",
+                MessageBoxButton.YesNo);
+            return result == MessageBoxResult.Yes;
         }
     }
 }

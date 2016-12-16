@@ -81,16 +81,13 @@
                     <DataGridTemplateColumn Header="???">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="20" Style="{StaticResource boolToGenderImageStyle}"/>
-                                    <TextBlock>Irgendwelchen</TextBlock>
-                                </StackPanel>
+                                <Image Width="20" Style="{StaticResource boolToGenderImageStyle}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Vorname" Binding="{Binding Vorname}"/>
                     <DataGridTextColumn Header="Nachname" Binding="{Binding Nachname}"/>
-                    <DataGridTextColumn Header="Männlich" Binding="{Binding IsMale}"/>
+                    <DataGridCheckBoxColumn Header="Männlich" Binding="{Binding IsMale, UpdateSourceTrigger=PropertyChanged}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </TabItem>
