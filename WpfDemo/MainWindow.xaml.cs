@@ -1,30 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WpfDemo.Annotations;
+using WpfDemo.Commands;
 
 namespace WpfDemo
 {
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private Person _ausgewähltePerson;
-        private readonly bool _kannGelöschtWerden;
+
+        public MainWindow()
+        {
+            Personen = new ObservableCollection<Person>
+            {
+                new Person {Vorname = "Maximilian", Nachname = "Tielke", IsMale = true},
+                new Person {Vorname = "Lena", Nachname = "Tielke", IsMale = false},
+                new Person {Vorname = "David", Nachname = "Tielke", IsMale = true},
+                new Person {Vorname = "Hasi", Nachname = "Tielke", IsMale = false}
+            };
+            RemovePersonCommand = new RemovePersonCommand(this);
+            InitializeComponent();
+
+            DataContext = this;
+        }
 
         public ObservableCollection<Person> Personen { get; set; }
+        public ICommand RemovePersonCommand { get; set; }
 
         public Person AusgewähltePerson
         {
@@ -50,17 +54,7 @@ namespace WpfDemo
                 OnPropertyChanged("VornameZeichenVerbleibend");
             }
         }
-
-        private void AusgewähltePersonWurdeGeändert(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "Vorname")
-            {
-                OnPropertyChanged("VornameZeichenVerbleibend");
-            }
-        }
-
-        public bool KannGelöschtWerden => AusgewähltePerson != null;
-
+        
         public int VornameZeichenVerbleibend
         {
             get
@@ -73,18 +67,14 @@ namespace WpfDemo
             }
         }
 
-        public MainWindow()
-        {
-            Personen = new ObservableCollection<Person>
-            {
-                new Person {Vorname = "Maximilian", Nachname="Tielke", IsMale = true},
-                new Person {Vorname = "Lena", Nachname="Tielke", IsMale = false},
-                new Person {Vorname = "David", Nachname="Tielke", IsMale = true},
-                new Person {Vorname = "Hasi", Nachname="Tielke", IsMale = false},
-            };
-            InitializeComponent();
+        public event PropertyChangedEventHandler PropertyChanged;
 
-            DataContext = this;
+        private void AusgewähltePersonWurdeGeändert(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Vorname")
+            {
+                OnPropertyChanged("VornameZeichenVerbleibend");
+            }
         }
 
         private void button_Click_1(object sender, RoutedEventArgs e)
@@ -99,8 +89,6 @@ namespace WpfDemo
             Personen.Clear();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -109,11 +97,6 @@ namespace WpfDemo
             {
                 del(this, new PropertyChangedEventArgs(propertyName));
             }
-        }
-
-        private void RemoveButtonHandler(object sender, RoutedEventArgs e)
-        {
-            Personen.Remove(AusgewähltePerson);
         }
     }
 }
