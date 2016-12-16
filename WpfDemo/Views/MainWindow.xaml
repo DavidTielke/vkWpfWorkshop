@@ -7,69 +7,92 @@
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" x:Class="WpfDemo.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525" x:Name="HauptFenster">
-    <Grid Margin="5">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <ListBox x:Name="lbPersons" Grid.Column="0" ItemsSource="{Binding Personen}" SelectedItem="{Binding AusgewähltePerson}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Style="{StaticResource boolToGenderImageStyle}"/>
-                        <TextBlock Text="{Binding Vorname}" FontWeight="Bold" Grid.Row="0" Grid.Column="1"/>
-                        <TextBlock Text="{Binding Nachname}" Grid.Row="1" Grid.Column="1"/>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <Grid Grid.Column="1">
-            <Grid.Resources>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Margin" Value="5 0 0 0"/>
-                    <Setter Property="VerticalAlignment" Value="Center"/>
-                </Style>
-                <Style TargetType="TextBox">
-                    <Setter Property="Margin" Value="5 0 0 0"/>
-                    <Setter Property="Height" Value="25"/>
-                </Style>
-            </Grid.Resources>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="130"/>
-                <ColumnDefinition Width="130"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <ToolBar Grid.Row="0" Grid.ColumnSpan="3">
-                <Button Content="Neu" Command="{Binding CreatePersonCommand}"/>
-                <Button Content="Clear" Command="{Binding ClearPersonsCommand}" />
-                <Button Content="Remove" Command="{Binding RemovePersonCommand}" CommandParameter="{Binding ElementName=lbPersons, Path=SelectedItem}"/>
-            </ToolBar>
-            <TextBlock Grid.Column="0" Grid.Row="1">Vorname</TextBlock>
-            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SelectedItem.Vorname, ElementName=lbPersons, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding VornameZeichenVerbleibend, StringFormat={}{0} Zeichen verbleibend...}"/>
+    <TabControl>
+        <TabItem Header="Daten">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <ListBox x:Name="lbPersons" Grid.Column="0" ItemsSource="{Binding Personen}" SelectedItem="{Binding AusgewähltePerson}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="25"/>
+                                    <RowDefinition Height="25"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Style="{StaticResource boolToGenderImageStyle}"/>
+                                <TextBlock Text="{Binding Vorname}" FontWeight="Bold" Grid.Row="0" Grid.Column="1"/>
+                                <TextBlock Text="{Binding Nachname}" Grid.Row="1" Grid.Column="1"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Grid Grid.Column="1">
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Margin" Value="5 0 0 0"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Margin" Value="5 0 0 0"/>
+                            <Setter Property="Height" Value="25"/>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <ToolBar Grid.Row="0" Grid.ColumnSpan="3">
+                        <Button Content="Neu" Command="{Binding CreatePersonCommand}"/>
+                        <Button Content="Clear" Command="{Binding ClearPersonsCommand}" />
+                        <Button Content="Remove" Command="{Binding RemovePersonCommand}" CommandParameter="{Binding ElementName=lbPersons, Path=SelectedItem}"/>
+                    </ToolBar>
+                    <TextBlock Grid.Column="0" Grid.Row="1">Vorname</TextBlock>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SelectedItem.Vorname, ElementName=lbPersons, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding VornameZeichenVerbleibend, StringFormat={}{0} Zeichen verbleibend...}"/>
 
-            <TextBlock Grid.Column="0" Grid.Row="2">Nachname</TextBlock>
-            <TextBox Grid.Column="1" Grid.Row="2"  Text="{Binding SelectedItem.Nachname, ElementName=lbPersons, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding VornameZeichenVerbleibend, StringFormat={}{0} Zeichen verbleibend...}"/>
+                    <TextBlock Grid.Column="0" Grid.Row="2">Nachname</TextBlock>
+                    <TextBox Grid.Column="1" Grid.Row="2"  Text="{Binding SelectedItem.Nachname, ElementName=lbPersons, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding VornameZeichenVerbleibend, StringFormat={}{0} Zeichen verbleibend...}"/>
 
-            <TextBlock Grid.Column="0" Grid.Row="3">Ist männlich</TextBlock>
-            <CheckBox Grid.Column="1" Grid.Row="3" IsChecked="{Binding SelectedItem.IsMale, ElementName=lbPersons}"/>
-        </Grid>
-    </Grid>
+                    <TextBlock Grid.Column="0" Grid.Row="3">Ist männlich</TextBlock>
+                    <CheckBox Grid.Column="1" Grid.Row="3" IsChecked="{Binding SelectedItem.IsMale, ElementName=lbPersons}"/>
+                </Grid>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Ansicht">
+            <DataGrid ItemsSource="{Binding Personen}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="???">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="20" Style="{StaticResource boolToGenderImageStyle}"/>
+                                    <TextBlock>Irgendwelchen</TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Vorname" Binding="{Binding Vorname}"/>
+                    <DataGridTextColumn Header="Nachname" Binding="{Binding Nachname}"/>
+                    <DataGridTextColumn Header="Männlich" Binding="{Binding IsMale}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </TabItem>
+    </TabControl>
 </Window>
